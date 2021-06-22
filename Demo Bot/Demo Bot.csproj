@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Trade_Ogre_Lib</RootNamespace>
+    <RootNamespace>Demo_Bot</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <ProjectReference Include="..\Trade Ogre Lib\Trade Ogre Lib.csproj" />
   </ItemGroup>
 
 </Project>
