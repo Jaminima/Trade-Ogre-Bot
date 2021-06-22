@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Trade_Ogre_Lib
 {
     public class Config
     {
-        public string key, secret;
+        #region Fields
 
         public static Config activeConv = Load();
+        public string key, secret;
+
+        #endregion Fields
+
+        #region Methods
 
         public static Config Load()
         {
@@ -26,5 +28,7 @@ namespace Trade_Ogre_Lib
                 throw new Exception("Please fill the config.json file with your auth details");
             }
         }
+
+        #endregion Methods
     }
 }

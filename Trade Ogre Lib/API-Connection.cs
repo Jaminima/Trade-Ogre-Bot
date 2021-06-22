@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Text;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Trade_Ogre_Lib
 {
     public static class API_Connection
     {
-        public static async Task<T> DoRequest<T>(string path, string method = "GET", Dictionary<string,object> Fields = null, bool ProvideAuth = false)
+        #region Methods
+
+        public static async Task<T> DoRequest<T>(string path, string method = "GET", Dictionary<string, object> Fields = null, bool ProvideAuth = false)
         {
             using (var httpClient = new HttpClient())
             {
@@ -21,7 +23,7 @@ namespace Trade_Ogre_Lib
                     {
                         string str_Fields = JsonConvert.SerializeObject(Fields);
 
-                        List<KeyValuePair<string?, string?>> iFields = new List<KeyValuePair<string?,string?>>();
+                        List<KeyValuePair<string?, string?>> iFields = new List<KeyValuePair<string?, string?>>();
                         Fields.ToList().ForEach(x => iFields.Add(new KeyValuePair<string?, string?>(x.Key, x.Value.ToString())));
 
                         request.Content = new FormUrlEncodedContent(iFields);
@@ -48,5 +50,7 @@ namespace Trade_Ogre_Lib
                 }
             }
         }
+
+        #endregion Methods
     }
 }
