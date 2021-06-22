@@ -33,14 +33,14 @@ namespace Trade_Ogre_Lib
             return await API_Connection.DoRequest<Objects.Order[]>("/account/orders", "POST", new Dictionary<string, object>() { { "market", market } }, true);
         }
 
-        public static async Task<Objects.PlacedOrder[]> SubmitBuy(string market, float quantity, float price)
+        public static async Task<Objects.PlacedOrder> SubmitBuy(string market, float quantity, float price)
         {
-            return await API_Connection.DoRequest<Objects.PlacedOrder[]>("/order/buy", "POST", new Dictionary<string, object>() { { "market", market }, { "quantity", quantity.ToString("N2") }, { "price",price.ToString("N8")} }, true);
+            return await API_Connection.DoRequest<Objects.PlacedOrder>("/order/buy", "POST", new Dictionary<string, object>() { { "market", market }, { "quantity", quantity.ToString("N2") }, { "price",price.ToString("N8")} }, true);
         }
 
-        public static async Task<Objects.PlacedOrder[]> SubmitSell(string market, float quantity, float price)
+        public static async Task<Objects.PlacedOrder> SubmitSell(string market, float quantity, float price)
         {
-            return await API_Connection.DoRequest<Objects.PlacedOrder[]>("/order/sell", "POST", new Dictionary<string, object>() { { "market", market }, { "quantity", quantity.ToString("N2") }, { "price", price.ToString("N8") } }, true);
+            return await API_Connection.DoRequest<Objects.PlacedOrder>("/order/sell", "POST", new Dictionary<string, object>() { { "market", market }, { "quantity", quantity.ToString("N2") }, { "price", price.ToString("N8") } }, true);
         }
 
         public static async Task CancelOrder(string orderid)

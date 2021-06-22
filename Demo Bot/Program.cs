@@ -2,6 +2,7 @@
 using Trade_Ogre_Lib;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace Demo_Bot
 {
@@ -10,9 +11,16 @@ namespace Demo_Bot
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var t = PrivateRequests.SubmitSell("BTC-GRLC", 50, 0.00000224f);
-            t.Wait();
-            var x = t.Result;
+
+            App();
+
+            while (true) { Thread.Sleep(10000); }
+        }
+
+        static async void App()
+        {
+            var q = await PublicRequests.GetTicker("BTC-GRLC");
+            var t = await PrivateRequests.SubmitSell("BTC-GRLC", 25, 0.00000324f);
         }
     }
 }
