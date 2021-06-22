@@ -32,6 +32,12 @@ namespace Trade_Ogre_Lib
 
                     string s = await response.Content.ReadAsStringAsync();
 
+                    JObject j = JObject.Parse(s);
+                    if (j.ContainsKey("success") && j["success"].ToString() == "False")
+                    {
+                        throw new Exception(j["error"].ToString());
+                    }
+
                     var o = JsonConvert.DeserializeObject<T>(s);
                     return o;
                 }

@@ -10,7 +10,7 @@ namespace Demo_Bot
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var t = PrivateRequests.GetBalance("BTC");
+            var t = PrivateRequests.SubmitSell("BTC-GRLC", 50, 0.00000224f);
             t.Wait();
             var x = t.Result;
         }
