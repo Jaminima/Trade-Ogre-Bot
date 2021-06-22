@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Text;
+using System;
 
 namespace Trade_Ogre_Lib
 {
@@ -18,6 +20,12 @@ namespace Trade_Ogre_Lib
                     {
                         string str_Fields = JsonConvert.SerializeObject(Fields);
                         request.Content = new StringContent(str_Fields);
+                    }
+
+                    if (ProvideAuth)
+                    {
+                        var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Config.activeConv.key}:{Config.activeConv.secret}"));
+                        request.Headers.TryAddWithoutValidation("Authorization", $"Basic {base64authorization}");
                     }
 
                     var response = await httpClient.SendAsync(request);

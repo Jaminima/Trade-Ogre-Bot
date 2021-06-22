@@ -10,7 +10,7 @@ namespace Demo_Bot
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var t = PublicRequests.GetHistory("BTC-GRLC");
+            var t = PrivateRequests.GetBalance("BTC");
             t.Wait();
             var x = t.Result;
         }
