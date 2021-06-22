@@ -10,7 +10,7 @@ namespace Demo_Bot
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var t = API_Connection.DoRequest<List<JObject>>("/markets");
+            var t = PublicRequests.GetHistory("BTC-GRLC");
             t.Wait();
             var x = t.Result;
         }

@@ -23,7 +23,8 @@ namespace Trade_Ogre_Lib
                     var response = await httpClient.SendAsync(request);
 
                     string s = await response.Content.ReadAsStringAsync();
-                    T o = JsonConvert.DeserializeObject<T>(s);
+
+                    var o = JsonConvert.DeserializeObject<T>(s);
                     return o;
                 }
             }
