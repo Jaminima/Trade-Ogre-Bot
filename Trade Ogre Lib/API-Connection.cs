@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System;
+using System.Linq;
 
 namespace Trade_Ogre_Lib
 {
@@ -19,7 +20,11 @@ namespace Trade_Ogre_Lib
                     if (Fields != null)
                     {
                         string str_Fields = JsonConvert.SerializeObject(Fields);
-                        request.Content = new StringContent(str_Fields);
+
+                        List<KeyValuePair<string?, string?>> iFields = new List<KeyValuePair<string?,string?>>();
+                        Fields.ToList().ForEach(x => iFields.Add(new KeyValuePair<string?, string?>(x.Key, x.Value.ToString())));
+
+                        request.Content = new FormUrlEncodedContent(iFields);
                     }
 
                     if (ProvideAuth)
