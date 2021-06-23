@@ -53,8 +53,12 @@ namespace Auto_Trader
                     state = State.IsLow;
 
                     float buySize = btcCurBal * buysellMultiplyer / ticker.price;
-                    PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
-                    Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
+
+                    if (buySize > 0.00005f)
+                    {   
+                        PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
+                        Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
+                    }
                 }
             }
             else if (gapPos >= highSellTrigger)
@@ -64,8 +68,12 @@ namespace Auto_Trader
                     state = State.IsHigh;
 
                     float sellSize = currencyCurBal * buysellMultiplyer;
-                    PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
-                    Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
+
+                    if (sellSize * ticker.price > 0.00005f)
+                    {
+                        PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
+                        Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
+                    }
                 }
             }
             else
