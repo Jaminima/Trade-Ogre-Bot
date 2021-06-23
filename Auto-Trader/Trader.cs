@@ -8,7 +8,7 @@ using Trade_Ogre_Lib.Objects;
 
 namespace Auto_Trader
 {
-    public class Trader
+    public abstract class Trader
     {
         protected string currencyCode;
 
