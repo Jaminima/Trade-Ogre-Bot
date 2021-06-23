@@ -8,46 +8,19 @@ using Trade_Ogre_Lib.Objects;
 
 namespace Auto_Trader
 {
-    public class HighLowTrader
+    public class HighLowTrader : Trader
     {
-        private string currencyCode;
         private float lowBuyTrigger, highSellTrigger;
         private float buysellMultiplyer;
 
-        private Ticker ticker;
-        private DateTime tickerAt;
-
-        public async Task<Ticker> GetTicker()
+        public HighLowTrader(string currencyCode="GRLC", float _lowBuyTrigger = 0.1f, float _highSellTrigger = 0.9f, float _buysellMultiplyer = 0.2f) : base(currencyCode)
         {
-            if (ticker == null || DateTime.Now > tickerAt.AddMinutes(1))
-            {
-                ticker = await PublicRequests.GetTicker("BTC-"+currencyCode);
-                tickerAt = DateTime.Now;
-            }
-            return ticker;
-        }
-
-        public async Task<float> getHighLowGap()
-        {
-            Ticker t = await GetTicker();
-            return t.high - t.low;
-        }
-
-        public async Task<float> getHLGapPosition()
-        {
-            Ticker t = await GetTicker();
-            return (t.price-t.low)/(t.high - t.low);
-        }
-
-        public HighLowTrader(string currencyCode="GRLC", float _lowBuyTrigger = 0.1f, float _highSellTrigger = 0.9f, float _buysellMultiplyer = 0.2f)
-        {
-            this.currencyCode = currencyCode;
             this.lowBuyTrigger = _lowBuyTrigger;
             this.highSellTrigger = _highSellTrigger;
             this.buysellMultiplyer = _buysellMultiplyer;
         }
 
-        public async void CheckState()
+        public override async void CheckState()
         {
             float gapPos = await getHLGapPosition();
             float btcCurBal = await PrivateRequests.GetBalance("BTC");

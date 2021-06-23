@@ -8,7 +8,7 @@ namespace Auto_Trader
     {
         private static async void App()
         {
-            HighLowTrader trader = new HighLowTrader(_buysellMultiplyer: 1);
+            Trader trader = new HighLowTrader(_buysellMultiplyer: 1);
 
             while (true)
             {
