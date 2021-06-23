@@ -56,11 +56,13 @@ namespace Auto_Trader
                     float buySize = btcSize / ticker.price;
 
                     if (btcSize > 0.00005f)
-                    {   
+                    {
                         PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
                         Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
                     }
+                    else Console.WriteLine("Ignored Buy Order Due To Small Size");
                 }
+                else Console.WriteLine($"No order placed, gap position is {gapPos:N8}");
             }
             else if (gapPos >= highSellTrigger)
             {
@@ -75,7 +77,9 @@ namespace Auto_Trader
                         PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
                         Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
                     }
+                    else Console.WriteLine("Ignored Sell Order Due To Small Size");
                 }
+                else Console.WriteLine($"No order placed, gap position is {gapPos:N8}");
             }
             else
             {
