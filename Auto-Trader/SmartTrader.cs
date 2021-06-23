@@ -16,23 +16,26 @@ namespace Auto_Trader
 
         }
 
+        private Tuple<float,float> CalculateWeightedAvg(Dictionary<float,float> values)
+        {
+            float Average = 0, Count = 0;
+            values.ToList().ForEach(x => { Average += x.Key * x.Value; Count += x.Value; });
+            Average /= Count;
+            return new Tuple<float, float>(Average, Count);
+        }
+
         public override async void CheckState()
         {
             OrderBook book = await PublicRequests.GetOrderBook("BTC-" + currencyCode);
 
-            float buyAverage = 0, buyCount=0;
-            book.buy.ToList().ForEach(x=> { buyAverage += x.Key * x.Value; buyCount += x.Value;  });
-            buyAverage /= buyCount;
+            Tuple<float, float> buyAvg = CalculateWeightedAvg(book.buy),
+                sellAvg = CalculateWeightedAvg(book.sell);
 
             Console.WriteLine($"Current Price            {(await GetTicker()).price:N8} BTC");
 
-            Console.WriteLine($"Average Buy Order Price  {buyAverage:N8} BTC, Buying  {buyCount} {currencyCode}");
+            Console.WriteLine($"Average Buy Order Price  {buyAvg.Item1:N8} BTC, Buying  {buyAvg.Item2} {currencyCode}");
 
-            float sellAverage = 0, sellCount = 0;
-            book.sell.ToList().ForEach(x => { sellAverage += x.Key * x.Value; sellCount += x.Value; });
-            sellAverage /= sellCount;
-
-            Console.WriteLine($"Average Sell Order Price {sellAverage:N8} BTC, Selling {sellCount} {currencyCode}");
+            Console.WriteLine($"Average Sell Order Price {sellAvg.Item1:N8} BTC, Selling {sellAvg.Item2} {currencyCode}");
         }
     }
 }
