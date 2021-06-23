@@ -52,9 +52,10 @@ namespace Auto_Trader
                 {
                     state = State.IsLow;
 
-                    float buySize = btcCurBal * buysellMultiplyer / ticker.price;
+                    float btcSize = btcCurBal * buysellMultiplyer;
+                    float buySize = btcSize / ticker.price;
 
-                    if (buySize > 0.00005f)
+                    if (btcSize > 0.00005f)
                     {   
                         PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
                         Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
