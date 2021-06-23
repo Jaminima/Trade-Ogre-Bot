@@ -59,6 +59,7 @@ namespace Auto_Trader
                     {
                         PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
                         Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
+                        Logger.Log($"Placed Buy for {buySize} {currencyCode}");
                     }
                     else Console.WriteLine("Ignored Buy Order Due To Small Size");
                 }
@@ -76,6 +77,7 @@ namespace Auto_Trader
                     {
                         PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
                         Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
+                        Logger.Log($"Placed Sell for {sellSize} {currencyCode}");
                     }
                     else Console.WriteLine("Ignored Sell Order Due To Small Size");
                 }
