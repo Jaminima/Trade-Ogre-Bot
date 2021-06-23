@@ -4,7 +4,7 @@
     {
         #region Fields
 
-        public double initialprice, price, high, low, volume, bid, ask;
+        public float initialprice, price, high, low, volume, bid, ask;
 
         #endregion Fields
     }
