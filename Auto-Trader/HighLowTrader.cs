@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trade_Ogre_Lib;
 using Trade_Ogre_Lib.Objects;
 
@@ -10,22 +6,37 @@ namespace Auto_Trader
 {
     public class HighLowTrader : Trader
     {
+        #region Fields
+
+        private float buysellMultiplyer;
+
+        private float lowBuyTrigger, highSellTrigger;
+
+        private State state = State.Neutral;
+
+        #endregion Fields
+
+        #region Enums
+
         private enum State
         {
             IsLow, IsHigh, Neutral
         }
 
-        private State state = State.Neutral;
+        #endregion Enums
 
-        private float lowBuyTrigger, highSellTrigger;
-        private float buysellMultiplyer;
+        #region Constructors
 
-        public HighLowTrader(string currencyCode="GRLC", float _lowBuyTrigger = 0.1f, float _highSellTrigger = 0.9f, float _buysellMultiplyer = 0.2f) : base(currencyCode)
+        public HighLowTrader(string currencyCode = "GRLC", float _lowBuyTrigger = 0.1f, float _highSellTrigger = 0.9f, float _buysellMultiplyer = 0.2f) : base(currencyCode)
         {
             this.lowBuyTrigger = _lowBuyTrigger;
             this.highSellTrigger = _highSellTrigger;
             this.buysellMultiplyer = _buysellMultiplyer;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override async void CheckState()
         {
@@ -46,7 +57,6 @@ namespace Auto_Trader
                     Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
                 }
             }
-
             else if (gapPos >= highSellTrigger)
             {
                 if (state != State.IsHigh)
@@ -58,12 +68,13 @@ namespace Auto_Trader
                     Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
                 }
             }
-
             else
             {
                 state = State.Neutral;
-                Console.WriteLine($"No order placed, gap position is {gapPos}");
+                Console.WriteLine($"No order placed, gap position is {gapPos:N8}");
             }
         }
+
+        #endregion Methods
     }
 }

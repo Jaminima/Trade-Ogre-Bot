@@ -1,11 +1,12 @@
 ﻿using System;
-using Trade_Ogre_Lib;
 using System.Threading;
 
 namespace Auto_Trader
 {
-    class Program
+    internal class Program
     {
+        #region Methods
+
         private static async void App()
         {
             Trader trader = new HighLowTrader(_buysellMultiplyer: 0.5f);
@@ -25,5 +26,7 @@ namespace Auto_Trader
 
             while (true) { Thread.Sleep(10000); }
         }
+
+        #endregion Methods
     }
 }

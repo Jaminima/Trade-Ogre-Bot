@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Trade_Ogre_Lib;
 using Trade_Ogre_Lib.Objects;
@@ -10,24 +7,29 @@ namespace Auto_Trader
 {
     public abstract class Trader
     {
+        #region Fields
+
+        private DateTime tickerAt;
         protected string currencyCode;
 
         protected Ticker ticker;
-        private DateTime tickerAt;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Trader(string currencyCode = "GRLC")
         {
             this.currencyCode = currencyCode;
         }
 
-        public async Task<Ticker> GetTicker()
+        #endregion Constructors
+
+        #region Methods
+
+        public virtual async void CheckState()
         {
-            if (ticker == null || DateTime.Now > tickerAt.AddMinutes(1))
-            {
-                ticker = await PublicRequests.GetTicker("BTC-" + currencyCode);
-                tickerAt = DateTime.Now;
-            }
-            return ticker;
+            float gapSize = await getHighLowGap();
         }
 
         public async Task<float> getHighLowGap()
@@ -42,9 +44,16 @@ namespace Auto_Trader
             return (t.price - t.low) / (t.high - t.low);
         }
 
-        public virtual async void CheckState()
+        public async Task<Ticker> GetTicker()
         {
-            float gapSize = await getHighLowGap();
+            if (ticker == null || DateTime.Now > tickerAt.AddMinutes(1))
+            {
+                ticker = await PublicRequests.GetTicker("BTC-" + currencyCode);
+                tickerAt = DateTime.Now;
+            }
+            return ticker;
         }
+
+        #endregion Methods
     }
 }
