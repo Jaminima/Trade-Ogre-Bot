@@ -10,7 +10,7 @@ namespace Auto_Trader
     {
         public static void Log(string message)
         {
-            File.AppendAllText("./log.txt", message);
+            File.AppendAllText("./log.txt", message+"\n");
         }
     }
 }

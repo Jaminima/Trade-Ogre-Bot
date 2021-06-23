@@ -53,11 +53,11 @@ namespace Auto_Trader
                     state = State.IsLow;
 
                     float btcSize = btcCurBal * buysellMultiplyer;
-                    float buySize = btcSize / ticker.price;
+                    float buySize = btcSize / ticker.ask;
 
                     if (btcSize > 0.00005f)
                     {
-                        PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
+                        PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.ask);
                         Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
                         Logger.Log($"Placed Buy for {buySize} {currencyCode}");
                     }
@@ -73,9 +73,9 @@ namespace Auto_Trader
 
                     float sellSize = currencyCurBal * buysellMultiplyer;
 
-                    if (sellSize * ticker.price > 0.00005f)
+                    if (sellSize * ticker.bid > 0.00005f)
                     {
-                        PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
+                        PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.bid);
                         Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
                         Logger.Log($"Placed Sell for {sellSize} {currencyCode}");
                     }
