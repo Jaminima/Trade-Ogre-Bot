@@ -10,6 +10,13 @@ namespace Auto_Trader
 {
     public class HighLowTrader : Trader
     {
+        private enum State
+        {
+            IsLow, IsHigh, Neutral
+        }
+
+        private State state = State.Neutral;
+
         private float lowBuyTrigger, highSellTrigger;
         private float buysellMultiplyer;
 
@@ -26,23 +33,36 @@ namespace Auto_Trader
             float btcCurBal = await PrivateRequests.GetBalance("BTC");
             float currencyCurBal = await PrivateRequests.GetBalance(currencyCode);
 
+            Console.WriteLine($"Current price {ticker.price:N8} BTC");
+
             if (gapPos <= lowBuyTrigger)
             {
-                float buySize = btcCurBal * buysellMultiplyer / ticker.price;
-                PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
-                Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
+                if (state != State.IsLow)
+                {
+                    state = State.IsLow;
+
+                    float buySize = btcCurBal * buysellMultiplyer / ticker.price;
+                    PlacedOrder order = await PrivateRequests.SubmitBuy("BTC-" + currencyCode, buySize, ticker.price);
+                    Console.WriteLine($"Placed Buy Order for {buySize} {currencyCode}");
+                }
             }
 
             else if (gapPos >= highSellTrigger)
             {
-                float sellSize = currencyCurBal * buysellMultiplyer;
-                PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
-                Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
+                if (state != State.IsHigh)
+                {
+                    state = State.IsHigh;
+
+                    float sellSize = currencyCurBal * buysellMultiplyer;
+                    PlacedOrder order = await PrivateRequests.SubmitSell("BTC-" + currencyCode, sellSize, ticker.price);
+                    Console.WriteLine($"Placed Sell Order for {sellSize} {currencyCode}");
+                }
             }
 
             else
             {
-                Console.WriteLine($"No order placed, gap position is {gapPos:N4}");
+                state = State.Neutral;
+                Console.WriteLine($"No order placed, gap position is {gapPos}");
             }
         }
     }
